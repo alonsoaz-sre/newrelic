@@ -1,0 +1,3231 @@
+{
+  "name": "[MACE] Dashboard",
+  "description": null,
+  "permissions": "PUBLIC_READ_WRITE",
+  "pages": [
+    {
+      "guid": "MjY2Mjg4N3xWSVp8REFTSEJPQVJEfDQ1MzA1NTQ0",
+      "name": "[TECH] APM",
+      "description": null,
+      "widgets": [
+        {
+          "id": "503634823",
+          "title": "APDEX Score",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 2,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT apdex(apm.service.apdex) as 'APDEX Score' FROM Metric WHERE appName LIKE '%mace%' LIMIT MAX  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        },
+        {
+          "id": "503634824",
+          "title": "Throughput",
+          "layout": {
+            "column": 3,
+            "row": 1,
+            "width": 5,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT rate(count(apm.service.transaction.duration), 1 minute) as 'throughput' FROM Metric WHERE appName LIKE '%mace%' FACET appName, transactionType, transactionName LIMIT MAX TIMESERIES \r\n "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634825",
+          "title": "Duration",
+          "layout": {
+            "column": 8,
+            "row": 1,
+            "width": 5,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(convert(apm.service.transaction.duration, unit, 'ms')) FROM Metric WHERE (appName LIKE '%mace%') FACET appName, transactionName LIMIT MAX TIMESERIES  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634826",
+          "title": "Average Response Time",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 2,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(duration*1000) AS 'Average Response Time' FROM Transaction where appName LIKE '%mace%' LIMIT MAX EXTRAPOLATE "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        },
+        {
+          "id": "503634827",
+          "title": "Error Rate x transactionName",
+          "layout": {
+            "column": 3,
+            "row": 4,
+            "width": 5,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT count(apm.service.transaction.error.count) / count(apm.service.transaction.duration) as 'Error rate' FROM Metric WHERE appName LIKE '%mace%' FACET appName, transactionName LIMIT MAX  TIMESERIES  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634828",
+          "title": "Error Count x transactionName",
+          "layout": {
+            "column": 8,
+            "row": 4,
+            "width": 5,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT count(apm.service.transaction.error.count) as 'Error Count' FROM Metric WHERE appName LIKE '%mace%' FACET appName, transactionName LIMIT MAX  TIMESERIES  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "guid": "MjY2Mjg4N3xWSVp8REFTSEJPQVJEfDQ1MzA1NTQ0",
+      "name": "[TECH] AWS EKS",
+      "description": null,
+      "widgets": [
+        {
+          "id": "503634829",
+          "title": null,
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 2,
+            "height": 2
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.markdown"
+          },
+          "rawConfiguration": {
+            "text": "# Microservicios - Pods"
+          }
+        },
+        {
+          "id": "503634830",
+          "title": "Resources Used",
+          "layout": {
+            "column": 3,
+            "row": 1,
+            "width": 5,
+            "height": 2
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT (average(cpuUsedCores) * uniqueCount(entityName)) AS 'CPU cores', (average(memoryWorkingSetBytes) * uniqueCount(entityName)) / 1000000000 AS 'Mem GB', (average(allocatableCpuCores) * uniqueCount(entityName)) as 'Allocatable CPU cores', (average(allocatableMemoryBytes) * uniqueCount(entityName)) / 1000000000 as 'Allocatable Mem GB' FROM K8sNodeSample UNTIL 1 minute ago WHERE clusterName LIKE '%-mace-eks-cluster'  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        },
+        {
+          "id": "503634831",
+          "title": "K8s Objects",
+          "layout": {
+            "column": 8,
+            "row": 1,
+            "width": 5,
+            "height": 2
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT filter(uniqueCount(K8sNodeSample.entityId), WHERE `label.eks.amazonaws.com/compute-type` IS NULL) AS 'Nodes', uniqueCount(K8sNamespaceSample.entityId) as 'Namespaces', uniqueCount(K8sDeploymentSample.entityId) as 'Deployments', uniqueCount(K8sPodSample.entityId) as 'Pods', uniqueCount(K8sContainerSample.containerName) as 'Containers' FROM K8sNodeSample, K8sNamespaceSample, K8sDeploymentSample, K8sPodSample, K8sContainerSample UNTIL 1 minute ago WHERE clusterName LIKE '%-mace-eks-cluster' "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        },
+        {
+          "id": "503634832",
+          "title": "Running Pods By Deployment",
+          "layout": {
+            "column": 1,
+            "row": 3,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.deployment.podsAvailable) as 'Running Pods' FROM Metric FACET deploymentName, k8s.namespaceName TIMESERIES LIMIT MAX WHERE clusterName LIKE '%mace-eks-cluster' AND k8s.namespaceName IN ('mace-apps')  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634833",
+          "title": "Missing Pods by Deployment - Apps",
+          "layout": {
+            "column": 4,
+            "row": 3,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.deployment.podsDesired) - average(k8s.deployment.podsAvailable) as 'Missing Pods' FROM Metric FACET deploymentName, k8s.namespaceName TIMESERIES LIMIT MAX WHERE clusterName LIKE '%mace-eks-cluster' AND k8s.namespaceName IN ('mace-apps') "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634834",
+          "title": "Missing Pods by Deployment - System",
+          "layout": {
+            "column": 7,
+            "row": 3,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.deployment.podsDesired) - average(k8s.deployment.podsAvailable) as 'Missing Pods' FROM Metric FACET deploymentName, newrelic.reportingAgent TIMESERIES LIMIT MAX WHERE clusterName LIKE '%mace-eks-cluster' AND k8s.namespaceName NOT IN ('mace-apps') "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634835",
+          "title": "Container Restarts",
+          "layout": {
+            "column": 10,
+            "row": 3,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT max(`k8s.container.restartCountDelta`) FROM Metric LIMIT MAX WHERE clusterName LIKE '%mace-eks-cluster' AND deploymentName IS NOT NULL AND namespace IN ('mace-apps','istio-system','istio-operator','calico-system', 'logging', 'logging-nr') FACET deploymentName,containerName,k8s.nodeName TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634836",
+          "title": "Deployments - Max CPU Usage",
+          "layout": {
+            "column": 1,
+            "row": 6,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT max(k8s.container.cpuCoresUtilization) AS 'Max CPU utilization (%)' FROM Metric WHERE clusterName like '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND containerName LIKE '%mace%' FACET deploymentName LIMIT MAX TIMESERIES auto SINCE 3 hours ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634837",
+          "title": "Deployments - Max Memory Usage",
+          "layout": {
+            "column": 7,
+            "row": 6,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT max(k8s.container.memoryWorkingSetUtilization) AS 'Max Memory utilization (%)' FROM Metric WHERE clusterName LIKE '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND containerName LIKE '%mace%' FACET deploymentName LIMIT MAX TIMESERIES auto SINCE 3 hours ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634838",
+          "title": "Pods - CPU utilization (%)",
+          "layout": {
+            "column": 1,
+            "row": 9,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.container.cpuCoresUtilization) AS 'CPU utilization (%)' FROM Metric WHERE clusterName LIKE '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND containerName LIKE '%mace%' FACET deploymentName, k8s.nodeName LIMIT MAX TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634839",
+          "title": "Pods - Memory utilization (%)",
+          "layout": {
+            "column": 5,
+            "row": 9,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT max(k8s.container.memoryWorkingSetUtilization) AS 'Memory utilization (%)' FROM Metric WHERE clusterName LIKE '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND containerName LIKE '%mace%' FACET deploymentName, k8s.nodeName LIMIT MAX TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634840",
+          "title": "Pods - Storage utlization (%)",
+          "layout": {
+            "column": 9,
+            "row": 9,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT max(k8s.container.fsUsedPercent) AS 'Storage utlization (%)' FROM Metric WHERE clusterName LIKE '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND k8s.containerName LIKE '%mace%' FACET deploymentName, k8s.nodeName LIMIT MAX TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634841",
+          "title": "Pods - CPU usage (cores)",
+          "layout": {
+            "column": 1,
+            "row": 12,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.container.cpuUsedCores) AS 'CPU usage (cores)' FROM Metric WHERE clusterName LIKE '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND k8s.containerName LIKE '%mace%' FACET deploymentName LIMIT MAX TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634842",
+          "title": "Pods - Memory usage (bytes)",
+          "layout": {
+            "column": 5,
+            "row": 12,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.container.memoryWorkingSetBytes / 1024 / 1024)  AS 'Memory usage (MB)' FROM Metric WHERE clusterName LIKE '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND k8s.containerName LIKE '%mace%' FACET deploymentName LIMIT MAX TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634843",
+          "title": "Pods - Storage usage (bytes)",
+          "layout": {
+            "column": 9,
+            "row": 12,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.container.fsUsedBytes) AS 'Storage usage (bytes)' FROM Metric WHERE clusterName LIKE '%-mace-eks-cluster' AND deploymentName LIKE '%mace%' AND k8s.containerName  LIKE '%mace%' FACET deploymentName LIMIT MAX TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634844",
+          "title": null,
+          "layout": {
+            "column": 1,
+            "row": 15,
+            "width": 12,
+            "height": 1
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.markdown"
+          },
+          "rawConfiguration": {
+            "text": "# Nodos - Consumo\r\n"
+          }
+        },
+        {
+          "id": "503634845",
+          "title": "Nodes - CPU Usage (%)",
+          "layout": {
+            "column": 1,
+            "row": 16,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.node.allocatableCpuCoresUtilization) AS 'Nodes CPU usage (%)' FROM Metric  WHERE `k8s.clusterName` LIKE '%-mace-eks-cluster' FACET entity.name LIMIT MAX TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634846",
+          "title": "Nodes - Memory usage (%)",
+          "layout": {
+            "column": 5,
+            "row": 16,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`k8s.node.allocatableMemoryUtilization`) FROM Metric FACET entity.name WHERE `k8s.clusterName` LIKE '%-mace-eks-cluster'  SINCE 30 minutes AGO TIMESERIES limit MAX"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634847",
+          "title": "Nodes - Storage Available (bytes)",
+          "layout": {
+            "column": 9,
+            "row": 16,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`k8s.node.fsAvailableBytes`) FROM Metric FACET entity.name WHERE `k8s.clusterName` LIKE '%-mace-eks-cluster'  SINCE 30 minutes AGO TIMESERIES limit MAX\r\n "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634848",
+          "title": "Nodes - CPU Usage (cores)",
+          "layout": {
+            "column": 1,
+            "row": 19,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(k8s.node.cpuUsedCores) AS 'Nodes CPU usage (cores)' FROM Metric  WHERE `k8s.clusterName` LIKE '%-mace-eks-cluster' FACET entity.name LIMIT MAX TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634849",
+          "title": "Nodes - Memory usage (bytes)",
+          "layout": {
+            "column": 5,
+            "row": 19,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`k8s.node.memoryUsedBytes`) FROM Metric FACET entity.name WHERE `k8s.clusterName` LIKE '%-mace-eks-cluster'  SINCE 30 minutes AGO TIMESERIES limit MAX  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634850",
+          "title": "Nodes - Storage usage (bytes)",
+          "layout": {
+            "column": 9,
+            "row": 19,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`k8s.node.fsUsedBytes`) FROM Metric FACET entity.name WHERE `k8s.clusterName` LIKE '%-mace-eks-cluster'  SINCE 30 minutes AGO TIMESERIES limit MAX\r\n "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "guid": "MjY2Mjg4N3xWSVp8REFTSEJPQVJEfDQ1Nzg0OTAw",
+      "name": "[TECH] AWS Apigateway",
+      "description": null,
+      "widgets": [
+        {
+          "id": "503634851",
+          "title": "5xx error Count",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT sum(`aws.apigateway.5XXError`) FROM Metric FACET aws.apigateway.ApiName,aws.region WHERE aws.accountId IN ('301159439365') AND aws.apigateway.ApiName LIKE '%mace%' TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634852",
+          "title": "4xx error count",
+          "layout": {
+            "column": 7,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT sum(`aws.apigateway.4XXError`) FROM Metric FACET aws.apigateway.ApiName,aws.region WHERE `aws.accountId` IN ('301159439365') AND aws.apigateway.ApiName LIKE '%mace%'TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634853",
+          "title": "5xx error Avg",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.apigateway.5XXError`) FROM Metric FACET aws.apigateway.ApiName,aws.region WHERE aws.accountId IN ('301159439365') AND aws.apigateway.ApiName LIKE '%mace%' TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634854",
+          "title": "4xx error Avg",
+          "layout": {
+            "column": 7,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.apigateway.4XXError`) FROM Metric FACET aws.apigateway.ApiName,aws.region WHERE `aws.accountId` IN ('301159439365') AND aws.apigateway.ApiName LIKE '%mace%' TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634855",
+          "title": "Count",
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT sum(`aws.apigateway.Count`)  FROM Metric WHERE `aws.accountId` IN ('301159439365') AND aws.apigateway.ApiName LIKE '%mace%' FACET aws.apigateway.ApiName,aws.region TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634856",
+          "title": "Latency (ms)",
+          "layout": {
+            "column": 5,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT min(`aws.apigateway.Latency`), average(`aws.apigateway.Latency`), max(`aws.apigateway.Latency`) FROM Metric WHERE `aws.accountId` IN ('301159439365') AND aws.apigateway.ApiName LIKE '%mace%' FACET aws.apigateway.ApiName,aws.region TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634857",
+          "title": "Integration latency (ms)",
+          "layout": {
+            "column": 9,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.apigateway.IntegrationLatency`) FROM Metric WHERE `aws.accountId` IN ('301159439365') AND aws.apigateway.ApiName LIKE '%mace%' FACET aws.apigateway.ApiName,aws.region TIMESERIES AUTO  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "guid": "MjY2Mjg4N3xWSVp8REFTSEJPQVJEfDQ1Nzg0OTAy",
+      "name": "[TECH] AWS RDS",
+      "description": null,
+      "widgets": [
+        {
+          "id": "503634858",
+          "title": "Database Connections",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.rds.DatabaseConnections`) * 10000 as 'connections in use' From Metric WHERE collector.name LIKE '%' AND entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) FACET entity.name,aws.region since 1 hour ago until 10 minutes ago   "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        },
+        {
+          "id": "503634859",
+          "title": "CPU Utilization",
+          "layout": {
+            "column": 5,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.rds.CPUUtilization`) as 'CPU Utilization' From Metric WHERE collector.name LIKE '%' AND entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) TIMESERIES until 10 minutes ago facet entity.name,aws.region "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634860",
+          "title": "Freeable Memory",
+          "layout": {
+            "column": 9,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(aws.rds.FreeableMemory) as 'Freeable Memory' FROM Metric WHERE collector.name LIKE '%' AND entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) TIMESERIES until 10 minutes ago facet entity.name,aws.region  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634861",
+          "title": "Volume bytes used",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.rds.VolumeBytesUsed.byDbCluster`) FROM Metric FACET entity.name,aws.region WHERE entity.name LIKE '%mace%' AND aws.accountId IN ('301159439365') TIMESERIES auto   "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634862",
+          "title": "Volume Bytes Left",
+          "layout": {
+            "column": 4,
+            "row": 4,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.rds.AuroraVolumeBytesLeftTotal`) as 'Volume Bytes Left' FROM Metric FACET entity.name,aws.region WHERE entity.name LIKE '%mace%' AND aws.accountId IN ('301159439365') TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634863",
+          "title": "RDS Instance Connections",
+          "layout": {
+            "column": 7,
+            "row": 4,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT max(`aws.rds.DatabaseConnections`) as 'Database Connections' From Metric WHERE entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND aws.accountId IN ('301159439365') AND entity.type = 'AWS_RDS_DB_INSTANCE' FACET entity.name,aws.region TIMESERIES   "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634864",
+          "title": "Login Failures",
+          "layout": {
+            "column": 10,
+            "row": 4,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT count(`aws.rds.LoginFailures`) FROM Metric WHERE entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) FACET entity.name,aws.region TIMESERIES  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634865",
+          "title": "Read Throughput",
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(aws.rds.ReadThroughput) FROM Metric WHERE entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND aws.accountId IN ('301159439365') FACET entity.name,aws.region  TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634866",
+          "title": "Insert Throughput",
+          "layout": {
+            "column": 4,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(aws.rds.InsertThroughput) FROM Metric WHERE entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND aws.accountId IN ('301159439365') FACET entity.name,aws.region  TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634867",
+          "title": "Blocked transactions",
+          "layout": {
+            "column": 7,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT sum(`aws.rds.BlockedTransactions`) FROM Metric WHERE entity.name LIKE '%nfct%' AND entity.type = 'AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) FACET entity.name, aws.region TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634868",
+          "title": "Aurora replica lag",
+          "layout": {
+            "column": 10,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`provider.auroraReplicaLag.Average`) FROM DatastoreSample WHERE entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE' AND provider='RdsDbInstance' AND  (aws.accountId IN ('301159439365')) FACET entity.name,aws.region TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634869",
+          "title": "Select latency (ms)",
+          "layout": {
+            "column": 1,
+            "row": 10,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`provider.selectLatency.Average`) FROM DatastoreSample WHERE entity.name LIKE '%mace%' AND entity.type='AWS_RDS_DB_INSTANCE'  AND (aws.accountId IN ('301159439365')) FACET entity.name,aws.region TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634870",
+          "title": "Commit latency (ms)",
+          "layout": {
+            "column": 4,
+            "row": 10,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`provider.commitLatency.Average`) FROM DatastoreSample WHERE provider='RdsDbInstance' AND entity.name LIKE '%mace%' AND entity.type = 'AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) FACET entity.name,aws.region TIMESERIES auto "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634871",
+          "title": "Read Latency (ms)",
+          "layout": {
+            "column": 7,
+            "row": 10,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`provider.readLatency.Average`) AS 'Read Latency' FROM DatastoreSample WHERE provider='RdsDbInstance' AND entity.name LIKE '%mace%' AND entity.type = 'AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) FACET entity.name,aws.region TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634872",
+          "title": "Write Latency (ms)",
+          "layout": {
+            "column": 10,
+            "row": 10,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`provider.writeLatency.Average`) AS 'Write Latency' FROM DatastoreSample WHERE provider='RdsDbInstance' AND entity.name LIKE '%mace%' AND entity.type = 'AWS_RDS_DB_INSTANCE' AND (aws.accountId IN ('301159439365')) FACET entity.name,aws.region TIMESERIES auto  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "guid": "MjY2Mjg4N3xWSVp8REFTSEJPQVJEfDQ1Nzg0OTA1",
+      "name": "[TECH] AWS Elasticache",
+      "description": null,
+      "widgets": [
+        {
+          "id": "503634873",
+          "title": "Elasticache connections",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 2,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.CurrConnections`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`,`aws.region` SINCE 7 days ago UNTIL now "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        },
+        {
+          "id": "503634874",
+          "title": "CPU Utilization",
+          "layout": {
+            "column": 3,
+            "row": 1,
+            "width": 5,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.CPUUtilization`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND  aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES SINCE 7 days ago UNTIL now  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634875",
+          "title": "Memory Usage Percentage",
+          "layout": {
+            "column": 8,
+            "row": 1,
+            "width": 5,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": " SELECT average(`aws.elasticache.DatabaseMemoryUsagePercentage`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND  aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634876",
+          "title": "Swap Usage",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.SwapUsage`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES  "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634877",
+          "title": "Commands Latency",
+          "layout": {
+            "column": 5,
+            "row": 4,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.StringBasedCmdsLatency`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND  aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634878",
+          "title": "Replication Lag",
+          "layout": {
+            "column": 9,
+            "row": 4,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.ReplicationLag`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND  aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634879",
+          "title": "Network Bytes In",
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.NetworkBytesIn`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634880",
+          "title": "Network Bytes Out",
+          "layout": {
+            "column": 4,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.NetworkBytesOut`) FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634881",
+          "title": "Cache Hits",
+          "layout": {
+            "column": 7,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.CacheHits`) as 'CacheHits' FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634882",
+          "title": "Cache Misses",
+          "layout": {
+            "column": 10,
+            "row": 7,
+            "width": 3,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.elasticache.CacheMisses`) as 'CacheMisses' FROM Metric WHERE collector.name LIKE '%' AND aws.elasticache.CacheClusterId IS NOT NULL AND aws.accountId IN ('301159439365') FACET `aws.elasticache.CacheClusterId`, `aws.region` TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "guid": "MjY2Mjg4N3xWSVp8REFTSEJPQVJEfDQ1Nzg0OTI1",
+      "name": "[TECH] AWS SQS",
+      "description": null,
+      "widgets": [
+        {
+          "id": "503634883",
+          "title": "SQS create - Mensajes Disponibles (Encolados)",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.sqs.ApproximateNumberOfMessagesVisible`) FROM Metric FACET `aws.sqs.QueueName` WHERE `aws.sqs.QueueName` IN ('qas-mace-transaction-bo-sqs') TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634884",
+          "title": "SQS create - Mensajes Eliminados (procesados)",
+          "layout": {
+            "column": 7,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.sqs.ApproximateNumberOfMessagesVisible`) FROM Metric FACET `aws.sqs.QueueName` WHERE `aws.sqs.QueueName` IN ('qas-mace-transaction-bo-sqs') TIMESERIES "
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634885",
+          "title": "SQS update - Mensajes Disponibles (Encolados)",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.sqs.ApproximateNumberOfMessagesVisible`) FROM Metric FACET `aws.sqs.QueueName` WHERE `aws.sqs.QueueName` IN ('qas-mace-transactions-update-sqs.fifo') TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634886",
+          "title": "SQS update - Mensajes Eliminados (procesados)",
+          "layout": {
+            "column": 7,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT sum(`aws.sqs.NumberOfMessagesDeleted`) FROM Metric FACET `aws.sqs.QueueName` WHERE `aws.sqs.QueueName` IN ('qas-mace-transactions-update-sqs.fifo') TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634887",
+          "title": "SQS error - Mensajes Disponibles (Encolados)",
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT average(`aws.sqs.ApproximateNumberOfMessagesVisible`) FROM Metric FACET `aws.sqs.QueueName` WHERE `aws.sqs.QueueName` IN ('qas-mace-transactions-error-sqs.fifo') TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "id": "503634888",
+          "title": "SQS error - Mensajes Eliminados (procesados)",
+          "layout": {
+            "column": 7,
+            "row": 7,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "markers": {
+              "displayedTypes": {
+                "criticalViolations": false,
+                "deployments": true,
+                "relatedDeployments": true,
+                "warningViolations": false
+              }
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "SELECT sum(`aws.sqs.NumberOfMessagesDeleted`) FROM Metric FACET `aws.sqs.QueueName` WHERE `aws.sqs.QueueName` IN ('qas-mace-transactions-error-sqs.fifo') TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "thresholds": {
+              "isLabelVisible": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "guid": "MjY2Mjg4N3xWSVp8REFTSEJPQVJEfDQ1Nzg0OTEx",
+      "name": "[TECH] AWS Batch",
+      "description": null,
+      "widgets": [
+        {
+          "id": "503634889",
+          "title": "Transactions Job",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 12,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "FROM BnplTransactionsDataExport \nSELECT startDate, endDate, status, statusDetails\nWHERE metricName = 'mace_transaction_status_total'"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        },
+        {
+          "id": "503634890",
+          "title": "Onboarding Job",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 12,
+            "height": 3
+          },
+          "linkedEntityGuids": [],
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "facet": {
+              "showOtherSeries": false
+            },
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  2662887
+                ],
+                "query": "FROM BnplTransactionsDataExport \nSELECT startDate, endDate, status, statusDetails\nWHERE metricName = 'mace_merchant_associations_total'"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variables": []
+}
